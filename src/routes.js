@@ -1,12 +1,10 @@
-const express = require('express');
+const { Router } = require('express');
 
-const server = express();
+const routes = new Router();
 
-// IMPORTANTE: para utilizar JSON no Body da requisicao
-server.use(express.json());
+const usuarios = ['Junior', 'Marcos', 'Renato'];
 
-// Middleware Global
-server.use((req, res, next) => {
+routes.use((req, res, next) => {
   console.log(`Método: ${req.method}; URL: ${req.url}`);
   
   return next();
@@ -28,19 +26,18 @@ function checaUsuarioNoArray(req, res, next) {
   return next();
 }
 
-const usuarios = ['Junior', 'Marcos', 'Renato'];
 
-server.get('/users', (req, res) => {
+routes.get('/users', (req, res) => {
   return res.json( {'Listagem-de-usuarios': usuarios});
 });
 
-server.get('/users/:index', checaUsuarioNoArray, (req, res) => {
+routes.get('/users/:index', checaUsuarioNoArray, (req, res) => {
   const { index } = req.params;
 
   return res.json(usuarios[index]);
 });
 
-server.post('/users', checaUsuarioExistente, (req, res) => {
+routes.post('/users', checaUsuarioExistente, (req, res) => {
   const { name } = req.body;
 
   usuarios.push(name);
@@ -48,7 +45,7 @@ server.post('/users', checaUsuarioExistente, (req, res) => {
   return res.json(usuarios);
 });
 
-server.put('/users/:index', checaUsuarioExistente, checaUsuarioNoArray, (req, res) =>{
+routes.put('/users/:index', checaUsuarioExistente, checaUsuarioNoArray, (req, res) =>{
   const { index } = req.params;
   const { name } = req.body;
 
@@ -57,7 +54,7 @@ server.put('/users/:index', checaUsuarioExistente, checaUsuarioNoArray, (req, re
   return res.json(usuarios);
 });
 
-server.delete('/users/:index', checaUsuarioNoArray, (req, res) =>{
+routes.delete('/users/:index', checaUsuarioNoArray, (req, res) =>{
   const { index } = req.params;
 
   usuarios.splice(index, 1);
@@ -65,5 +62,4 @@ server.delete('/users/:index', checaUsuarioNoArray, (req, res) =>{
   return res.send();
 });
 
-server.listen(3000);
-
+module.exports = routes;

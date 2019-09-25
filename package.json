@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "express": "^4.17.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.2"
-  }
+  },
+  "repository": "https://github.com/jjunior96/Basico-Middleware.git",
+  "author": "Junior Alves <jjalves96@gmail.com>"
 }
